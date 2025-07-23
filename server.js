@@ -188,29 +188,24 @@ io.on('connection', socket => {
 
 	socket.on('onBeginTTS', async data => {
 		try {
-			// Buat audio dari OpenAI TTS
 			const result = await openai.audio.speech.create({
 				model: 'gpt-4o-mini-tts',
 				input: data.input,
-				voice: data.voiceModel || 'onyx', // fallback kalau gak ada
+				voice: data.voiceModel || 'onyx',
 				response_format: 'mp3',
 				instructions: 'Cheerful, playful, and clear tone. Speak indonesian fluently.',
 			})
 
-			// Convert result.body ke ArrayBuffer, lalu Buffer
 			const buffer = Buffer.from(await result.arrayBuffer())
 
-			// Simpen ke file temporer
 			const randomId = uuidv4()
 			const tempName = `./temp/${randomId}.mp3`
 			writeFileSync(tempName, buffer)
 			console.log('✅ TTS file saved:', tempName)
 
-			// Encode ke base64 & emit ke client
 			const base64Audio = buffer.toString('base64')
 			socket.emit('onTTSResult', { audio: base64Audio })
 
-			// Hapus file setelah dikirim
 			setTimeout(() => {
 				unlinkSync(tempName)
 				console.log('🗑️ Temp file deleted:', tempName)
