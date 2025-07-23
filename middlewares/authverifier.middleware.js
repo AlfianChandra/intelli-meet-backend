@@ -10,6 +10,7 @@ const routerExclusions = [
 ]
 const allowedOrigins = [
 	'http://localhost:5173', //Dev - Vite
+	'https://intellimeet.rndkito.com',
 	'http://localhost:2512',
 	'https://accounts.google.com/', //Google
 	'PostmanRuntime', //Dev - Postman
