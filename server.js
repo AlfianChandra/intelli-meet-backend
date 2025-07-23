@@ -115,7 +115,6 @@ io.on('connection', socket => {
 				}
 			})
 
-			//cut to last 6 messages
 			let messages = []
 			const personality = {
 				role: 'system',
